@@ -12,7 +12,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(of = "id")
 @Builder
 @Entity
-@Table(name = "tb_catgory")
+@Table(name = "tb_category")
 public class Category implements Serializable {
 
     @Id
