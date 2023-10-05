@@ -22,6 +22,4 @@ public class Platform implements Serializable {
     private Long id;
     private String title;
 
-    @ManyToMany(mappedBy = "platforms")
-    private Set<Game> games = new HashSet<>();
 }
