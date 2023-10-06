@@ -5,6 +5,7 @@ import com.afzdev.gameapi.entities.Category;
 import com.afzdev.gameapi.mapper.CategoryMapper;
 import com.afzdev.gameapi.repository.CategoryRepository;
 import com.afzdev.gameapi.services.CategoryService;
+import com.afzdev.gameapi.services.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO buscarCategoryPorId(Long id) {
-        return mapper.toCategoryDTO(categoryRepository.findById(id).orElseThrow(()->new RuntimeException("Categoria Inexistente")));
+        return mapper.toCategoryDTO(categoryRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Categoria Inexistente")));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void updateCategory(Long id, CategoryDTO categoryDTO) {
         if (Objects.nonNull(id)){
-           Category categoryRetornada = categoryRepository.findById(id).orElseThrow(()->new RuntimeException("Categoria Inexistente"));
+           Category categoryRetornada = categoryRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Categoria Inexistente"));
            categoryRetornada = mapper.toCategory(categoryDTO);
            categoryRetornada.setId(id);
            categoryRepository.save(categoryRetornada);

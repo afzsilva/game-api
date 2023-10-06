@@ -5,6 +5,7 @@ import com.afzdev.gameapi.entities.Developer;
 import com.afzdev.gameapi.mapper.DeveloperMapper;
 import com.afzdev.gameapi.repository.DeveloperRepository;
 import com.afzdev.gameapi.services.DeveloperService;
+import com.afzdev.gameapi.services.exceptions.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public DeveloperDTO buscarDeveloperPorId(Long id) {
-        return developerMapper.toDeveloperDTO(developerRepository.findById(id).orElseThrow(()-> new RuntimeException("Fabricante do game não existente")));
+        return developerMapper.toDeveloperDTO(developerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Fabricante do game não existente")));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public void updateDeveloper(Long id, DeveloperDTO developerDTO) {
-        Developer developerRetornado = developerRepository.findById(id).orElseThrow(()->new RuntimeException("Fabricante do game não existente"));
+        Developer developerRetornado = developerRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Fabricante do game não existente"));
         developerRetornado = developerMapper.toDeveloper(developerDTO);
         developerRetornado.setId(id);
         developerRepository.save(developerRetornado);

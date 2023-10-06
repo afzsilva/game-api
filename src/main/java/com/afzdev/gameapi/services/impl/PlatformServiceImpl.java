@@ -5,6 +5,7 @@ import com.afzdev.gameapi.entities.Platform;
 import com.afzdev.gameapi.mapper.PlatformMapper;
 import com.afzdev.gameapi.repository.PlatformRepository;
 import com.afzdev.gameapi.services.PlatformService;
+import com.afzdev.gameapi.services.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Override
     public PlatformDTO buscarPlatformPorId(Long id) {
-        return mapper.toPlatformDTO(platformRepository.findById(id).orElseThrow(()-> new RuntimeException("Platform não existe na base")));
+        return mapper.toPlatformDTO(platformRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Platform não existe na base")));
     }
 
     @Override
@@ -43,7 +44,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Override
     public void updatePlaform(Long id, PlatformDTO platformDTO) {
-        Platform platformRetornada = platformRepository.findById(id).orElseThrow(()->new RuntimeException("Platform não existe na base"));
+        Platform platformRetornada = platformRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Platform não existe na base"));
         platformRetornada = mapper.toPlatform(platformDTO);
         platformRetornada.setId(id);
         platformRepository.save(platformRetornada);

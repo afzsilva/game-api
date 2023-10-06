@@ -5,6 +5,7 @@ import com.afzdev.gameapi.entities.Game;
 import com.afzdev.gameapi.mapper.GameMapper;
 import com.afzdev.gameapi.repository.GameRepository;
 import com.afzdev.gameapi.services.GameService;
+import com.afzdev.gameapi.services.exceptions.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameDTO atualizarGame(Long id, GameDTO gameDTO) {
-       Game gameRetornado = gameRepository.findById(id).orElseThrow(()-> new RuntimeException("Game não existente"));
+       Game gameRetornado = gameRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Game não existente"));
        gameRetornado = gameMapper.toGame(gameDTO);
        gameRetornado.setId(id);
         return gameMapper.toGameDTO(gameRepository.save(gameRetornado));
@@ -50,6 +51,6 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameDTO buscarGamePorId(Long id) {
-        return gameMapper.toGameDTO(gameRepository.findById(id).orElseThrow(()-> new RuntimeException("Game não existente")));
+        return gameMapper.toGameDTO(gameRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Game não existente")));
     }
 }
